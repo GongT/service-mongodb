@@ -20,11 +20,11 @@ echo_run(){
 TARGET=
 if [ -d /data ]; then
 	TARGET=/data/gongt-services/mongodb
-	mkdir -p /data/gongt-services
+	echo_run mkdir -p /data/gongt-services
 else
 	if [ -d /opt ]; then
 		TARGET=/opt/gongt-services/mongodb
-		mkdir -p /opt/gongt-services
+		echo_run mkdir -p /opt/gongt-services
 	else
 		die "no where to install, please create /data or /opt"
 	fi
@@ -33,7 +33,7 @@ fi
 if [ -e "${TARGET}" ]; then
 	if [ -e "${TARGET}/set_mongodb_password.sh" -a -e "${TARGET}/build_start.sh" ]; then
 		cd ${TARGET}
-		git pull
+		echo_run git pull
 	else
 		die "install target ${TARGET} already used."
 	fi
@@ -42,3 +42,5 @@ else
 fi
 
 echo_run cd ${TARGET}
+
+echo_run bash ./build_start.sh
