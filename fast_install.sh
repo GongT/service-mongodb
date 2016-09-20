@@ -38,7 +38,7 @@ if [ -e "${TARGET}" ]; then
 		die "install target ${TARGET} already used."
 	fi
 else
-	echo_run git clone https://github.com/GongT/mongodb.git ${TARGET}
+	echo_run git clone https://github.com/GongT/service-mongodb.git ${TARGET}
 fi
 
 echo_run cd ${TARGET}

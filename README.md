@@ -11,11 +11,11 @@ https://github.com/tutumcloud/mongodb
 fast run
 ---------------
 
-    curl https://raw.githubusercontent.com/GongT/mongodb/master/fast_install.sh | sh
+    curl https://raw.githubusercontent.com/GongT/service-mongodb/master/fast_install.sh | sh
 
 to change database save path:
 
-    DATABASE_PATH="/data/database" curl https://raw.githubusercontent.com/GongT/mongodb/master/fast_install.sh | sh
+    DATABASE_PATH="/data/database" curl https://raw.githubusercontent.com/GongT/service-mongodb/master/fast_install.sh | sh
 
 
 MongoDB version
