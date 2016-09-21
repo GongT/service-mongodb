@@ -7,6 +7,11 @@ if [ -z "${DATABASE_PATH}" ]; then
 	DATABASE_PATH=${1-"`pwd`/database"}
 fi
 
+L=`ls "${DATABASE_PATH}" 2>/dev/null | wc -l`
+if [ ${L} -gt 0 ]; then
+	DATABASE_ALREADY_EXISTS=yes
+fi
+
 SAFE_STRING=260968bb6fd2ca9c3c2ac056c970eec9a11a03a3
 VERSION_STRING=`git log --format="%H" -n 1`
 
@@ -35,7 +40,10 @@ container_exists () {
 }
 
 try_run () {
-	docker exec -i ${RUN_NAME} mongo 'admin' -u admin -p password -eval ${1-'db.users.find().toString()'}
+	if [ -z "${DATABASE_ALREADY_EXISTS}" ]; then
+		CRE='-u admin -p password'
+	fi
+	docker exec -i ${RUN_NAME} mongo 'admin' ${CRE} -eval ${1-'db.users.find().toString()'}
 }
 check_ok () {
 	try_run &>/dev/null
