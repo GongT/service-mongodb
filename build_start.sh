@@ -103,23 +103,35 @@ while ! check_ok; do
 	fi
 done
 
-if touch /usr/bin/mongo &>/dev/null; then
-	INSTALL_PATH=/usr/bin/mongo
-else
-	INSTALL_PATH=/usr/local/bin/mongo
-fi
 DO_NOT_INSTALL_MONGO=
-if [ -f "${INSTALL_PATH}" ]; then
-	if grep -q "${SAFE_STRING}" "${INSTALL_PATH}"; then
-		rm "${INSTALL_PATH}"
-	else
-		DO_NOT_INSTALL_MONGO="\nNote:\n   "${INSTALL_PATH}" is already exists. - mongo tool not installed.\n\nyou can add 'alias mongo=\"mongo -h mongodb -u admin -p password admin\"' to your .bashrc file"
-	fi
-fi
 
-if [ -z "${DO_NOT_INSTALL_MONGO}" ]; then
-	echo -e "#!/bin/bash\n# ${SAFE_STRING}\n\n docker exec -i ${RUN_NAME} mongo" > "${INSTALL_PATH}"
-	chmod a+x "${INSTALL_PATH}"
+install () {
+	echo -e "#!/bin/bash\n# ${SAFE_STRING}\n\n docker exec -i ${RUN_NAME} mongo" > "${*}"
+	chmod a+x "${*}"
+}
+check_and_install () {
+	local INSTALL_PATH="$*"
+	if [ -e "${INSTALL_PATH}" ]; then
+		if touch "${INSTALL_PATH}" &>/dev/null; then
+			if grep -q "${SAFE_STRING}" "${INSTALL_PATH}"; then
+				install "${INSTALL_PATH}"
+				return 0
+			fi
+		fi
+		DO_NOT_INSTALL_MONGO="\nNote:\n   "${INSTALL_PATH}" is already exists. - mongo tool not installed.\n\nyou can add 'alias mongo=\"mongo -h mongodb -u admin -p password admin\"' to your .bashrc file"
+		return 0
+	else
+		if touch "${INSTALL_PATH}" &>/dev/null; then
+			install "${INSTALL_PATH}"
+			return 0
+		fi
+		return 1
+	fi
+}
+
+
+if ! check_and_install /usr/bin/mongo ; then
+	check_and_install /usr/local/bin/mongo
 fi
 
 docker logs ${RUN_NAME}
