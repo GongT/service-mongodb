@@ -35,7 +35,7 @@ container_exists () {
 }
 
 try_run () {
-	docker exec -it ${RUN_NAME} mongo 'admin' -u admin -p password -eval ${1-'db.users.find().toString()'}
+	docker exec -i ${RUN_NAME} mongo 'admin' -u admin -p password -eval ${1-'db.users.find().toString()'}
 }
 check_ok () {
 	try_run &>/dev/null
