@@ -15,7 +15,8 @@ fast run
 
 to change database save path:
 
-    DATABASE_PATH="/data/database" curl https://raw.githubusercontent.com/GongT/service-mongodb/master/fast_install.sh | sh
+    export DATABASE_PATH="/data/database"
+    curl https://raw.githubusercontent.com/GongT/service-mongodb/master/fast_install.sh | sh
 
 
 MongoDB version
