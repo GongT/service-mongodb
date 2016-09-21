@@ -64,6 +64,8 @@ if container_exists ; then
 	fi
 fi
 
+echo "DATABASE_PATH=${DATABASE_PATH}"
+
 # -p 27017:27017 -p 28017:28017 \
 docker run --restart=always -d \
 	--name ${RUN_NAME} \
@@ -108,7 +110,7 @@ if [ -f "${INSTALL_PATH}" ]; then
 fi
 
 if [ -z "${DO_NOT_INSTALL_MONGO}" ]; then
-	echo -e "#!/bin/bash\n# ${SAFE_STRING}\n\n docker exec -it ${RUN_NAME} mongo" > "${INSTALL_PATH}"
+	echo -e "#!/bin/bash\n# ${SAFE_STRING}\n\n docker exec -i ${RUN_NAME} mongo" > "${INSTALL_PATH}"
 	chmod a+x "${INSTALL_PATH}"
 fi
 
