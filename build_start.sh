@@ -4,7 +4,7 @@ BUILD_TAG=gongt/mongodb
 RUN_NAME=mongodb
 
 if [ -z "${DATABASE_PATH}" ]; then
-	DATABASE_PATH=${1-"`pwd`/database"}
+	DATABASE_PATH=${1-`pwd`/database}
 fi
 
 L=`ls "${DATABASE_PATH}" 2>/dev/null | wc -l`
@@ -106,7 +106,7 @@ done
 DO_NOT_INSTALL_MONGO=
 
 install () {
-	echo -e "#!/bin/bash\n# ${SAFE_STRING}\n\n docker exec -i ${RUN_NAME} mongo" > "${*}"
+	echo -e "#!/bin/bash\n# ${SAFE_STRING}\n\n docker exec -it ${RUN_NAME} mongo" > "${*}"
 	chmod a+x "${*}"
 }
 check_and_install () {
