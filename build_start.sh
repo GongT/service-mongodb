@@ -76,6 +76,7 @@ echo "DATABASE_PATH=${DATABASE_PATH}"
 
 # -p 27017:27017 -p 28017:28017 \
 docker run --restart=always -d \
+	-p 27017:27017 \
 	--name ${RUN_NAME} \
 	-v ${DATABASE_PATH}:/data/db \
 	${BUILD_TAG}

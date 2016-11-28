@@ -5,7 +5,8 @@ ENV AUTH yes
 ENV STORAGE_ENGINE wiredTiger
 ENV JOURNALING yes
 
-LABEL org.nsg.alias='["mongodb"]'
+ARG ALIAS_NAME=mongodb
+LABEL org.nsg.alias="[\"$ALIAS_NAME\"]"
 
 ADD run.sh /run.sh
 ADD set_mongodb_password.sh /set_mongodb_password.sh

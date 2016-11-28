@@ -1,7 +1,3 @@
-.idea
-database
-.tmp
-.micro-build
 .git/
 .idea/
 .jsonenv/
@@ -19,7 +15,8 @@ coverage/
 build/Release
 node_modules/
 jspm_packages/
+typings/
 .npm
 .node_repl_history
-!.micro-build/packagejson
-!.micro-build/json-env-data.json
+.micro-build/*
+!.micro-build/config.ts
