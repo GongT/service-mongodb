@@ -105,9 +105,17 @@ while ! check_ok; do
 done
 
 DO_NOT_INSTALL_MONGO=
+USER=${MONGODB_USER:-"admin"}
+DATABASE=${MONGODB_DATABASE:-"admin"}
+PASS=${MONGODB_PASS:-"password"}
 
 install () {
-	echo -e "#!/bin/bash\n# ${SAFE_STRING}\n\n docker exec -it ${RUN_NAME} mongo" > "${*}"
+	echo "#!/bin/bash
+# ${SAFE_STRING}
+
+docker exec -it ${RUN_NAME} mongo '-u${USER}' '-p${PASS}' '--authenticationDatabase' '${DATABASE}' \"\$@\"
+
+" > "${*}"
 	chmod a+x "${*}"
 }
 check_and_install () {
@@ -119,7 +127,7 @@ check_and_install () {
 				return 0
 			fi
 		fi
-		DO_NOT_INSTALL_MONGO="\nNote:\n   "${INSTALL_PATH}" is already exists. - mongo tool not installed.\n\nyou can add 'alias mongo=\"mongo -h mongodb -u admin -p password admin\"' to your .bashrc file"
+		DO_NOT_INSTALL_MONGO="\nNote:\n   "${INSTALL_PATH}" is already exists. - mongo tool not installed.\n\nyou can add \'alias mongo=\"xxxx\"\' to your .bashrc file"
 		return 0
 	else
 		if touch "${INSTALL_PATH}" &>/dev/null; then
