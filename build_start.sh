@@ -3,9 +3,9 @@
 BUILD_TAG=gongt/mongodb
 RUN_NAME=mongodb
 
-if [ -z "${DATABASE_PATH}" ]; then
-	DATABASE_PATH=${1-`pwd`/database}
-fi
+set -e
+cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+DATABASE_PATH="$(pwd)/database"
 
 L=`ls "${DATABASE_PATH}" 2>/dev/null | wc -l`
 if [ ${L} -gt 0 ]; then
